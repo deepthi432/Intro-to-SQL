@@ -1,0 +1,41 @@
+#------Inner Join
+SELECT cities.name as city,countries.name as country,countries.region 
+FROM cities
+ INNER JOIN countries
+ ON cities.country_code = countries.code;
+
+#----Inner Join with more than 2 tables
+SELECT c.code, name, region, e.year, fertility_rate, unemployment_rate
+  
+  FROM countries AS c
+ INNER JOIN populations AS p
+ ON c.code = p.country_code INNER JOIN economies AS e
+ ON c.code = e.code AND p.year = e.year
+
+#-----USING KEYWORD
+SELECT * FROM countries INNER JOIN economies USING(code);
+
+#---Self join
+
+select p1.country_code,
+p1.size as size2010,
+p2.size as size2015 
+from populations as p1
+ inner join populations as p2
+ on p1.country_code=p2.country_code
+
+#---CASE WHEN AND THEN
+SELECT country_code, size,
+    
+CASE WHEN size > 50000000 THEN 'large'
+        
+     WHEN size > 1000000 THEN 'medium'
+        
+     ELSE 'small' END
+        
+AS popsize_group
+into pop_plus
+
+FROM populations
+
+WHERE year = 2015;
