@@ -23,3 +23,8 @@ SELECT (4 * 3);
 SELECT (4 / 3);
 SELECT (4.0 / 3.0) AS result;
 SELECT MAX(budget) AS max_budget,MAX(duration) AS max_duration FROM films;
+SELECT title FROM films ORDER BY release_year DESC;
+SELECT birthdate, name FROM people ORDER BY birthdate, name;
+SELECT sex, count(*) FROM employees GROUP BY sex;
+select release_year,country,max(budget) from films group by release_year,country order by release_year,country;
+SELECT release_year FROM films GROUP BY release_year HAVING COUNT(title) > 10;
