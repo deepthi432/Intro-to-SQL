@@ -1,0 +1,42 @@
+#----Left Join
+SELECT cities.name as city,countries.name as country,countries.region 
+FROM cities
+ left JOIN countries
+ ON cities.country_code = countries.code;
+
+#----Right Join
+SELECT cities.name as city,countries.name as country,countries.region 
+FROM cities
+ right JOIN countries
+ ON cities.country_code = countries.code;
+
+#----Full Join
+SELECT cities.name as city,countries.name as country,countries.region 
+FROM cities
+ full JOIN countries
+ ON cities.country_code = countries.code;
+
+#------Cross Join
+SELECT c.name AS city, l.name AS language
+ 
+FROM cities AS c CROSS JOIN languages AS l
+ WHERE c.name LIKE 'Hyder%';
+
+#-------Union set theory
+select code,year,income_group,gross_savings from economies2010 union select code,year,income_group,gross_savings from economies2015 order by code,year;
+
+#-------Union All
+SELECT code,year FROM economies union all SELECT country_code,year FROM populations ORDER BY code, year;
+
+#-----Intersect
+select code,year from economies intersect select country_code,year from populations order by code,year;
+
+#-----Except
+SELECT name FROM cities except SELECT capital FROM countries ORDER BY name;
+
+#-----Semi Join
+select distinct name from languages WHERE code IN (select code from countries where region='Middle East') order by name;
+
+
+#-----Anti Join
+select name,code from countries where continent='Oceania' and code not in (select code from currencies);
