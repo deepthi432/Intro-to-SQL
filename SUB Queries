@@ -1,0 +1,30 @@
+#-----Sub Query IN SELECT statement with respective filters in main n sub query
+
+SELECT 
+	l.name AS league,
+    -- Select and round the league's total goals
+    ROUND(avg(m.home_goal + m.away_goal), 2) AS avg_goals,
+    -- Select & round the average total goals for the season
+    (SELECT round(avg(home_goal + away_goal), 2) 
+     FROM match
+     where season = '2013/2014') AS overall_avg
+FROM league AS l
+LEFT JOIN match AS m
+ON l.country_id = m.country_id
+-- Filter for the 2013/2014 season
+WHERE season = '2013/2014'
+GROUP BY league;
+
+#-----Sub Query in Where clause
+
+select name,fert_rate from states where continent='Asia' and fert_rate < (select AVG(fert_rate) from states);
+
+#----Sub query in from statement
+
+select local_name,subquery.lang_num
+from countries,
+(select code,count(*) as lang_num
+  	  
+from languages group by code) AS subquery
+where countries.code=subquery.code
+order by lang_num desc;
