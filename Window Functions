@@ -136,3 +136,24 @@ inner JOIN away ON m.id = away.id
 WHERE m.season = '2014/2015'
       AND ((home.team_long_name = 'Manchester United' AND home.outcome = 'MU Loss')
       OR (away.team_long_name = 'Manchester United' AND away.outcome = 'MU Loss'));
+      
+#-------Window function for numbering rows
+
+SELECT
+  *,
+  -- Assign numbers to each row
+  row_number() over() AS Row_N
+FROM Summer_Medals
+ORDER BY Row_N ASC;
+
+#------Rows numbering in descending order
+
+SELECT
+  Year,
+  -- Assign the lowest numbers to the most recent years
+  row_number() OVER (order by year desc) AS Row_N
+FROM (
+  SELECT DISTINCT Year
+  FROM Summer_Medals
+) AS Years
+ORDER BY Year;
