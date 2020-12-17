@@ -368,4 +368,47 @@ SELECT
 FROM Country_Medals
 ORDER BY Country ASC, Year ASC;
 
+#--------max window function with rows between
+
+WITH Scandinavian_Medals AS (
+  SELECT
+    Year, COUNT(*) AS Medals
+  FROM Summer_Medals
+  WHERE
+    Country IN ('DEN', 'NOR', 'FIN', 'SWE', 'ISL')
+    AND Medal = 'Gold'
+  GROUP BY Year)
+
+SELECT
+  -- Select each year's medals
+  Year,
+  Medals,
+  -- Get the max of the current and next years'  medals
+  max(Medals) OVER (ORDER BY Year ASC
+             ROWS BETWEEN current row
+             AND 1 following) AS Max_Medals
+FROM Scandinavian_Medals
+ORDER BY Year ASC;
+
+#--------Avg window function with rows between
+
+WITH Russian_Medals AS (
+  SELECT
+    Year, COUNT(*) AS Medals
+  FROM Summer_Medals
+  WHERE
+    Country = 'RUS'
+    AND Medal = 'Gold'
+    AND Year >= 1980
+  GROUP BY Year)
+
+SELECT
+  Year, Medals,
+  --- Calculate the 3-year moving average of medals earned
+  avg(Medals) OVER
+    (ORDER BY Year ASC
+     ROWS BETWEEN
+     2 preceding AND current row) AS Medals_MA
+FROM Russian_Medals
+ORDER BY Year ASC;
 
