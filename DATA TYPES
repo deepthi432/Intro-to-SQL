@@ -1,0 +1,25 @@
+#---------Getting information about your database example1
+
+ -- Select all columns from the TABLES system database
+ SELECT * 
+ FROM information_schema.tables
+ -- Filter by schema
+ WHERE table_schema = 'public';
+
+#---------Getting information about your database example2
+
+ -- Select all columns from the COLUMNS system database
+ SELECT * 
+ FROM information_schema.columns 
+ WHERE table_name = 'actor';
+
+#----------Getting to know data types
+
+-- Get the column name and data type
+SELECT
+ 	column_name, 
+    data_type
+-- From the system database information schema
+FROM information_schema.COLUMNS 
+-- For the customer table
+WHERE table_name = 'customer';
