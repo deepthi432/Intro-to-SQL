@@ -39,3 +39,57 @@ SELECT
   -- Determine the length of the description column
   length(description) AS desc_len
 FROM film;
+
+
+#-------Truncating Strings
+
+SELECT 
+  -- Select the first 50 characters of description
+  left(description,50) AS short_desc
+FROM 
+  film AS f; 
+
+#----------Extracting substrings from text data
+
+SELECT 
+  -- Select only the street name from the address table
+  substring(address from position(' ' in address)+1 FOR char_length(address))
+FROM 
+  address;
+
+
+
+#-------Combining functions for string manipulation
+
+
+SELECT
+  -- Extract the characters to the left of the '@'
+  left(email, position('@' IN email)-1) AS username,
+  -- Extract the characters to the right of the '@'
+  substring(email FROM position('@' IN email)+1 for char_length(email)) AS domain
+FROM customer;
+
+#------Padding
+
+-- Concatenate the first_name and last_name 
+SELECT 
+	rpad(first_name, LENGTH(first_name)+1) 
+    || rpad(last_name, LENGTH(last_name)+2, ' <') 
+    || rpad(email, LENGTH(email)+1, '>') AS full_email
+FROM customer; 
+
+#-----Trim
+
+-- Concatenate the uppercase category name and film title
+SELECT 
+  concat(upper(c.name), ': ',f.title ) AS film_category, 
+  -- Truncate the description remove trailing whitespace
+  trim(left(f.description, 50)) AS film_desc
+FROM 
+  film AS f 
+  INNER JOIN film_category AS fc 
+  	ON f.film_id = fc.film_id 
+  INNER JOIN category AS c 
+  	ON fc.category_id = c.category_id;
+
+
