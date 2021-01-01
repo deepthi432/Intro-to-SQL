@@ -92,4 +92,32 @@ FROM
   INNER JOIN category AS c 
   	ON fc.category_id = c.category_id;
 
+#----------Measuring similarity between two strings
+
+
+-- Select the title and description columns
+SELECT 
+  title, 
+  description, 
+  -- Calculate the similarity
+  similarity(title, description)
+FROM 
+  film
+
+
+#-------------Levenshtein distance examples
+
+
+-- Select the title and description columns
+SELECT  
+  title, 
+  description, 
+  -- Calculate the levenshtein distance
+  levenshtein(title, 'JET NEIGHBOR') AS distance
+FROM 
+  film
+ORDER BY 3
+
+
+
 
